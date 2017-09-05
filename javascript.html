@@ -51,6 +51,7 @@
                   sNext:       "Successivo",
                   sLast:       "Fine"
               },
+          sVisibility: true
             },
        
         dom: 'Bfrltip',
@@ -79,6 +80,8 @@
 /* 09 */           { data: "Telefono mobile di servizio", title: "Telefono mobile di servizio"},
 /* 10 */           { data: "Nome Santo Patrono", title: "Nome Santo Patrono"},
 /* 11 */           { data: "Data Santo Patrono", title: "Data Santo Patrono", visible:true},
+/* 12 */           { data: "Livello Economico", title: "Livello Economico", visible:false},
+
 
           ],
           
@@ -89,20 +92,14 @@
             if(row.Ruolo == "Viewer"){
               return '<button class="btn btn-outline btn-info waves-effect disabled">Modifica</button>'; }
               else return '<a href='+data+' class="btn btn-outline btn-danger waves-effect" target="_blank">Modifica</a>';}
-              },   
-          { targets: [11], render: function ( data, type, row) {
-              return moment(data).format('YYYY/MM/DD')     
-          }
-         },
-  
-         
+              },     
         ],
         
           data: dataObject.table,
           responsive: true,
           scrollCollapse: true,
           scrollY: "100vh",
-//          scrollX: "100%",
+          scrollX: "100%",
 //          scrollXInner: "110%",
           paging: true,
           paginationType: 'full',
@@ -113,7 +110,15 @@
           autoWidth: true,
 
  });       // chiusura chiamata alla funzione di definizio della variabile 'myTb'
+ 
+   var column = myTb.column(':contains(Livello Economico)')
+   
+   if (dataObject.user.role == 'Editor'){
+      column.visible(true)
+   }
+ 
 })
+
 }
 
 //$('.bodycontainer').css( 'display', 'block' );

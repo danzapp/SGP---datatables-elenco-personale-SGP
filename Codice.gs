@@ -24,8 +24,8 @@ var dataMissioni = sheet.getDataRange().getValues()
 // rimuove riga 2 e 3
 dataMissioni.splice(1,2)
 
-
-var currentUser = Session.getActiveUser().getEmail()
+var currentUser = {}
+currentUser.name = Session.getActiveUser().getEmail()
 // Logger.log(currentUser)
 
 // modifica il formato della data di rilevazione
@@ -46,13 +46,34 @@ for (var i in dataObjectsArray){
 
 dataObjectsArray.forEach(function(obj){ 
 
-  if(currentUser == obj['Indirizzo email']){
-    obj.Ruolo = "Editor" ; 
+var editors = ['s.antonielli@aci.it','g.polidori@aci.it','p.rocchetti@aci.it','da.zappala@aci.it']
+for (var i in editors){
+  if (currentUser.name == editors[i]){
+    var isEditor = currentUser.name
   }
-  else
-  {
-    obj.Ruolo = "Viewer"; 
-  }
+}
+  
+ switch(currentUser.name) {
+    case obj['Indirizzo email']:
+        obj.Ruolo = "Editor" 
+        currentUser.role = 'Editor'       
+        break;
+    case isEditor :
+        obj.Ruolo = "Editor" 
+        currentUser.role = 'Editor'
+        break;
+    default:
+        obj.Ruolo = "Viewer"
+        currentUser.role = 'Viewer'
+}
+  
+//  if(currentUser == obj['Indirizzo email']){
+//    obj.Ruolo = "Editor" ; 
+//  }
+//  else
+//  {
+//    obj.Ruolo = "Viewer"; 
+//  }
   
   Logger.log(obj['Ufficio Territoriale'])
   
@@ -69,7 +90,7 @@ var mainObject = {  // quando completa l'array di Object costruisce l'oggetto Co
 
  // Logger.log(mainObject);
  // return mainObject  // il risultato viene restituito come Object 
- return JSON.stringify(mainObject) // il risultato viene restituito come JSON e sarà necesario effettuare JSON.parse()
+ return JSON.stringify(mainObject) // il risultato viene restituito come JSON e sarà necessario effettuare JSON.parse()
 }
 
 
